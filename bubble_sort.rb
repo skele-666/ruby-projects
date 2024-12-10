@@ -30,30 +30,29 @@
 # [2, 3, 1] => [2, 1, 3]
 # [1, 2, 3]
 
-require 'pry-byebug'
-
 def bubble_sort(arr)
   n = arr.length
-  k = 0 # Iteration count
-
+  comparison_count = 0
+  swap_count = 0
   # Repeat (n - 1) times
-  (n - 1).times do
-    k += 1
-    # Loop through the array. Gotta incude 0.. so it goes through each number
-    (0...(n - 1)).each do |index|
+  (n - 1).times do |k| # Iteration count
+    swapped = false
+    # Loop through the array. Gotta incude 0.. so it goes through each number.
+    # Break when the loop reaches n - 1 - k
+    (0...(n - 1 - k)).each do |index|
+      comparison_count += 1  # Increment for each comparison
       if arr[index] > arr[index + 1]
-        if k > 0
-          # break at ((n - 1) - k)
-          while index != ((n - 1) - k)
-            arr[index], arr[index + 1] = arr[index + 1], arr[index]
-            continue
-          end
-          break
-        end
+        arr[index], arr[index + 1] = arr[index + 1], arr[index] # Swap
+        swap_count += 1  # Increment for each swap
+        swapped = true # Mark that swap occured
       end
     end
+    break unless swapped
   end
+  puts "Total Comparisons: #{comparison_count}"
+  puts "Total Swaps: #{swap_count}"
+  p arr
   arr
 end
 
-p bubble_sort([4, 2, 7, 8, 4, 6, 9])
+bubble_sort([4, 3, 78, 2, 0, 2])
